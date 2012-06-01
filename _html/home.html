@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>home</title>
+<link href="../_css/pms2.css" rel="stylesheet">
+<link href="../fancybox/jquery.fancybox-1.3.4.css" rel="stylesheet">
+<script src="../_js/jquery-1.7.min.js"></script>
+<script src="../fancybox/jquery.fancybox-1.3.4.js"></script>
+<script src="../_js/pms2.js"></script>
+<script src="../_js/f_face.js"></script>
+<script>
+jQuery(function($){
+
+// listening for SHOW ALL button to show all hidden elements
+$('div.form input#showall').click(function(){
+	$('div.main *').show();	
+});
+
+$('div.form input#testfunction').click(function(){
+	adjustGroups();
+	setGroupHeaders();	
+});
+
+$('div.form input#facedata').click(function(){
+	var urlsOfImages = getAllImageUrls();
+	collectFaceData(urlsOfImages);	
+});
+
+// getting all photos in one group
+getPhotosAll(10000000000, showPhotosAll); 
+
+// listening for keydown events
+$(window).keydown(function(e){
+	
+	var keyDown = e.which;
+	var selectedPhoto = $('div.main img:hover');
+	var selectedPhotoID = selectedPhoto.parent().data('id');
+	
+	// listening for R to remove a hovered image (only for one session)
+	if (keyDown === 82) {
+		
+		// removing break div with no images after it
+		if (selectedPhoto.parent().next().is('.break') && selectedPhoto.parent().prev().is('.break')){
+			selectedPhoto.parent().prev().remove();
+			selectedPhoto.parent().remove();
+			setGroupHeaders();
+		} else {
+			selectedPhoto.parent().remove();	
+		}
+			
+	}
+	
+	// listening for B to breake any group at a hovered image
+	if (keyDown === 66) {
+		selectedPhoto.parent().before('<div class="break"></div>');
+		setGroupHeaders();
+	}
+	
+	// listening for D keydown to permenantly delete a hovered image from database
+	if (keyDown === 68) {
+		if (typeof selectedPhotoID != 'undefined') {
+			selectedPhoto.parent().remove();
+			deletePhoto(selectedPhotoID);
+		}
+		
+	}
+	
+	// listening for S keydown to select a hovered image
+	if (keyDown === 83) {
+		selectedPhoto.toggleClass('selected');
+	}
+	
+	// listening for H keydown to set hidden property for a hovered image
+	if (keyDown === 72) {
+		if (typeof selectedPhotoID != 'undefined') {
+			//selectedPhoto.remove();
+			selectedPhoto.addClass('property_hidden');
+			setPhotoProperty(selectedPhotoID, 'hidden', 'Y');
+		}
+	}
+	// listening for U keydown to remove hidden property for a hovered image
+	if (keyDown === 85) {
+		if (typeof selectedPhotoID != 'undefined') {
+			selectedPhoto.removeClass();
+			setPhotoProperty(selectedPhotoID, 'hidden', 'N');
+		}
+	}	
+	
+	if (keyDown === 70) {
+		if (typeof selectedPhotoID != 'undefined') {
+			var faceData = selectedPhoto.parent().data('faceData').split(',');
+			$.each(faceData, function(i,v){
+				console.log(v);
+			});
+		}
+	}
+
+	if (keyDown === 67) {
+		if (typeof selectedPhotoID != 'undefined') {
+			var urlsOfImages = getImageUrl();
+			collectFaceData(urlsOfImages);
+		}
+	}
+		
+	// showing which key is pressed down
+	console.log(e.which);
+}); //end keydown
+
+
+}); //end jQuerry
+</script>
+</head>
+<body>
+
+<div class="main">
+	
+	<div class="form">
+		<input id="showall" type="button" value="show all" />
+		<input id="testfunction" type="button" value="test"/>
+		<input id="facedata" type="button" value="Collect FaceData"/>
+		<span class="hint">C - collect facedata | F - facedata info | D - delete from DB | S - select | R - temp remove | B - break | H - set hide property | U - set unhide property</span>
+	</div>
+	
+	<div class="break"></div>
+</div>
+<div class="hidden" id="zoom"></div>
+</body>
+</html>

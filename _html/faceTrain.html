@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>faceTrain</title>
+<link href="../_css/s_face.css" rel="stylesheet">
+<script src="../_js/jquery-1.7.min.js"></script>
+<script src="../_js/f_face.js"></script>
+<script src="../_js/urlparam.js"></script>
+<script>
+jQuery(function($){
+	
+	// reading url params
+	var url = window.location.href;
+	var param = parseURLParams(url);
+	var path = String(param['url']);
+		
+	// preparing elements
+	$('div.main p#link a').attr('href', path).text(path); // adds link with image path
+	$('div.main img').attr('src', path); // sets image src and loads image
+	$('div.main p').removeClass();  // unhides image and link
+	$('div#detect form').append('<input id="detect" type="button" value="detect" />'); //adds detect button
+		
+	// adding click event on detect button
+	$('div#detect input#detect').click(function(e){
+		$(this).attr('disabled', 'disabled').attr('value', 'detecting...'); // disables detect button
+		recognizeFace(path, detectSuccess); // calls custom recognize function
+	}); //end click detect button
+	
+}); //end jQuerry
+</script>
+</head>
+
+<body>
+	<div class="main">
+      	<p class="hidden" id="pic"><img src="" alt="image"/></p>
+		<p class="hidden" id="link"><a href="" target="_blank"></a></p>  	
+    </div>
+	 
+	 <div class="buttons" id="detect">
+		<form></form>
+	</div>
+	
+	<div class="buttons" id="savetags">
+	 	<form></form>
+	</div>
+	
+  	<div id="marks"></div>
+</body>
+</html>

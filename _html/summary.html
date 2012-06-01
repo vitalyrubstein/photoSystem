@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>summary</title>
+<link href="../_css/s_summary.css" rel="stylesheet">
+<link href="../fancybox/jquery.fancybox-1.3.4.css" rel="stylesheet">
+<script src="../_js/jquery-1.7.min.js"></script>
+<script src="../_js/f_summary.js"></script>
+<script src="../_js/pms2.js"></script>
+<script src="../_js/urlparam.js"></script>
+<script src="../fancybox/jquery.fancybox-1.3.4.js"></script>
+<script>
+jQuery(function($){
+
+getPhotosAll(10000000000, showPhotosByGroup); 
+
+});// end jQuerry
+</script>
+</head>
+<body>
+
+<div class="forms">
+	<span>Groups:</span>
+	<input id="number" type="text" size="5" />
+	<input id="group" type="button" value="show" />
+	<span>||</span>
+	<span>Seconds:</span>
+	<input id="seconds" type="text" size="5" />
+	<input id="group2" type="button" value="show" />
+	<a id="test" href="#set"><input id="test" type="button" value="test" /></a>
+</div>	
+	
+<div class="main">
+	<div class="break"></div>
+</div>
+</body>
+</html>
